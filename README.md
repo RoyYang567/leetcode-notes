@@ -7,5 +7,5 @@
 ├─notes
 ├─solutions
 └─templates
-        note_template.md
+    └──note_template.md
 ```
