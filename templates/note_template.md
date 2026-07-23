@@ -1,11 +1,21 @@
-# [题号. 题目名](https://leetcode.cn/problems/xxx/)
-**难度**：  
-**标签**：  
-**首次 AC**：  
+# [Problem Name](Problem URL)
+**Level**：
+Easy/Medium/Hard
+**Topics**： 
 
-## 思路
-（用自己的话写）
+**First AC**：  
+Mon Date, Year
 
-## 代码
+## Idea
+
+
+## Code
+My solution:
 ```python
-# 你的 AC 代码
+
+```
+
+## Ideal Solution
+```python
+
+```
