@@ -1,4 +1,5 @@
 # leetcode-notes
+Solutions are optional.
 
 ## Structure
 ```
