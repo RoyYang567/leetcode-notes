@@ -1,0 +1,37 @@
+name: Update Number
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - '**.java'
+      - '**.cpp'
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Pull the Repository
+        uses: actions/checkout@v4
+
+      - name: Update README
+        run: |
+          COUNT=$(find ./solutions -name "*.py" -type f 2>/dev/null | wc -l | xargs)
+          if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
+            COUNT=$(find . -path ./__pycache__ -prune -o -name "*.py" -type f -print | wc -l | xargs)
+          fi
+          COUNT=$((COUNT + 10))
+          sed -i "s/<!-- SOL_COUNT -->.*/<!-- SOL_COUNT --> $COUNT/" README.md
+          cat README.md
+
+      - name: Push to Repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --staged --quiet || git commit -m "🤖 Auto update # of Solutions"
+          git push
