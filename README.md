@@ -1,14 +1,38 @@
-# leetcode-notes
-Working in progress.
+name: 更新题解数量
 
-Problems Solved: <!-- SOL_COUNT --> 
+on:
+  push:
+    paths:
+      - '**.py'
+      - '**.java'
+      - '**.cpp'
+  workflow_dispatch:
 
-## Structure
-```
-│  .gitignore
-│  README.md
-├─notes
-├─solutions
-└─templates
-    └──note_template.md
-```
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 统计文件数量并更新 README
+        run: |
+          # 只统计 solutions 目录下的 .py 文件
+          COUNT=$(find ./solutions -name "*.py" -type f 2>/dev/null | wc -l | xargs)
+          if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
+            COUNT=$(find . -path ./__pycache__ -prune -o -name "*.py" -type f -print | wc -l | xargs)
+          fi
+          # 修复 sed 命令（原写法有误）
+          sed -i "s/<!-- SOL_COUNT -->.*/<!-- SOL_COUNT --> $COUNT/" README.md
+          cat README.md
+
+      - name: 提交更改回仓库
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git diff --staged --quiet || git commit -m "🤖 自动更新刷题数量"
+          git push
