@@ -1,5 +1,6 @@
 # leetcode-notes
 Working in progress.
+
 Problems Solved: <!-- SOL_COUNT --> 
 
 ## Structure
