@@ -1,13 +1,21 @@
-- name: 统计文件数量并更新 README
-  run: |
-    # 只统计 solutions 目录下的 .py 文件（排除子目录中的非题解文件，如果有）
-    COUNT=$(find ./solutions -name "*.py" -type f 2>/dev/null | wc -l | xargs)
-    # 如果 solutions 目录不存在，回退到统计所有 .py（排除常见缓存）
-    if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
-      COUNT=$(find . -path ./venv -prune -o -path ./__pycache__ -prune -o -name "*.py" -type f -print | wc -l | xargs)
-    fi
-    
-    # 不管占位符后有没有数字，直接替换整行
-    sed -i "s/^\(.*<!-- SOL_COUNT -->\).*/\1 $COUNT/" README.md
-    
-    cat README.md
+name: 更新题解数量
+
+on:
+  push:
+    paths:
+      - '**.py'
+  workflow_dispatch:
+
+jobs:
+  test-count:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 只统计数量，不修改文件
+        run: |
+          COUNT=$(find solutions -name "*.py" -type f 2>/dev/null | wc -l | xargs)
+          echo "找到的题解数量：$COUNT"
+          if [ -z "$COUNT" ]; then COUNT=0; fi
+          echo "COUNT=$COUNT" >> $GITHUB_ENV   # 输出环境变量方便查看
