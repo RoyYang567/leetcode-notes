@@ -1,5 +1,6 @@
 # leetcode-notes
-Solutions are optional.
+Working in progress.
+Problems Solved: <!-- SOL_COUNT --> 
 
 ## Structure
 ```
