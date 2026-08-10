@@ -1,7 +1,7 @@
 # leetcode-notes
 Working in progress.
 
-Problems Solved: <!-- SOL_COUNT --> 49
+Problems Solved: <!-- SOL_COUNT --> 50
 
 ## Structure
 ```
