@@ -25,6 +25,7 @@ class Solution:
                         num -= 1
                         queue.append(check)
             time += 1
+            
         if num == 0:
             return time
         else:
