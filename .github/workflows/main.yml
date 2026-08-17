@@ -16,17 +16,14 @@ jobs:
     
     steps:
       - name: Pull the Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5  # 从 v4 升级到 v5
 
       - name: Update README
         run: |
-          # 统计 ./solutions 下的三种源码文件
           COUNT=$(find ./solutions -type f \( -name "*.py" -o -name "*.java" -o -name "*.cpp" \) 2>/dev/null | wc -l | xargs)
-          # 如果上面没找到，改从当前目录统计（排除缓存目录）
           if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
             COUNT=$(find . -path ./__pycache__ -prune -o -type f \( -name "*.py" -o -name "*.java" -o -name "*.cpp" \) -print | wc -l | xargs)
           fi
-          # 直接替换占位符（不加任何偏移）
           sed -i "s/<!-- SOL_COUNT -->.*/<!-- SOL_COUNT --> $COUNT/" README.md
           echo "Total solutions: $COUNT"
 
