@@ -20,13 +20,15 @@ jobs:
 
       - name: Update README
         run: |
-          COUNT=$(find ./solutions -name "*.py" -type f 2>/dev/null | wc -l | xargs)
+          # 统计 ./solutions 下的三种源码文件
+          COUNT=$(find ./solutions -type f \( -name "*.py" -o -name "*.java" -o -name "*.cpp" \) 2>/dev/null | wc -l | xargs)
+          # 如果上面没找到，改从当前目录统计（排除缓存目录）
           if [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ]; then
-            COUNT=$(find . -path ./__pycache__ -prune -o -name "*.py" -type f -print | wc -l | xargs)
+            COUNT=$(find . -path ./__pycache__ -prune -o -type f \( -name "*.py" -o -name "*.java" -o -name "*.cpp" \) -print | wc -l | xargs)
           fi
-          COUNT=$((COUNT + 10))
+          # 直接替换占位符（不加任何偏移）
           sed -i "s/<!-- SOL_COUNT -->.*/<!-- SOL_COUNT --> $COUNT/" README.md
-          cat README.md
+          echo "Total solutions: $COUNT"
 
       - name: Push to Repository
         run: |
