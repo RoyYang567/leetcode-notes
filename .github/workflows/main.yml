@@ -16,7 +16,7 @@ jobs:
     
     steps:
       - name: Pull the Repository
-        uses: actions/checkout@v5  # 从 v4 升级到 v5
+        uses: actions/checkout@v5
 
       - name: Update README
         run: |
